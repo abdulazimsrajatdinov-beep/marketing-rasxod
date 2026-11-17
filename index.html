@@ -142,7 +142,7 @@ const SB="https://rgqruifzceraivheepdv.supabase.co/rest/v1/rpc/";
 const KEY="sb_publishable_gBRWWzLrDY4KDpgPtlk2sg_sTFOxECS";
 const CATS=["Mobilograf","Brendfeys","Operator","SMM","Bloger","Target"];
 const CC={Mobilograf:"var(--c1)",Brendfeys:"var(--c2)",Operator:"var(--c3)",SMM:"var(--c4)",Bloger:"var(--c5)",Target:"var(--c6)"};
-const BC=["#1E3A34","#7A5C1E","#2D7FF9","#B4321F","#6C5CE7"];
+const BC=["#1E3A34","#7A5C1E","#2D7FF9","#B4321F","#6C5CE7","#00897B"];
 const MON=["Yanvar","Fevral","Mart","Aprel","May","Iyun","Iyul","Avgust","Sentyabr","Oktyabr","Noyabr","Dekabr"];
 const $=s=>document.querySelector(s);
 const fmt=n=>Math.round(n||0).toString().replace(/\B(?=(\d{3})+(?!\d))/g," ");
@@ -186,7 +186,7 @@ function render(){
   <div class="card total" id="kp"></div>
   <p class="mu hint"><span class="dot" style="background:var(--ok)"></span>Summanı katakqa jazıp Enter basıń: ol avtomat saqlanadı. Óshiriw ushın katakty bos qaldırıń.</p>
   <div class="tw"><table class="g"><thead><tr><th>Filial</th>${CATS.map(c=>`<th><span class="h"><span class="dot" style="background:${CC[c]}"></span>${c}</span></th>`).join("")}<th>Jámi</th><th>Limit</th></tr></thead>
-  <tbody>${D.branches.map((b,i)=>`<tr><td class="bn"><span class="bw"><span class="av" style="background:${BC[i%5]}" aria-hidden="true">${esc(b.name[0])}</span>${esc(b.name)}</span></td>
+  <tbody>${D.branches.map((b,i)=>`<tr><td class="bn"><span class="bw"><span class="av" style="background:${BC[i%6]}" aria-hidden="true">${esc(b.name[0])}</span>${esc(b.name)}</span></td>
     ${CATS.map(c=>`<td data-l="${c}"><input inputmode="numeric" aria-label="${esc(b.name)} · ${c}" data-b="${b.id}" data-c="${c}" value="${M[b.id]&&M[b.id][c]?fmt(M[b.id][c]):""}" placeholder="0"></td>`).join("")}
     <td class="tot" data-l="Jámi" id="rt-${b.id}">${fmt(rowSum(M,b.id))}</td><td class="lc" data-l="Limit" id="lc-${b.id}">${limitCell(b)}</td></tr>`).join("")}</tbody>
   <tfoot><tr><td class="bn">Jámi</td>${CATS.map(c=>`<td data-l="${c}" id="ct-${c}">${fmt(colSum(M,c))}</td>`).join("")}<td data-l="Barlıǵı" id="ct-all">${fmt(T)}</td><td></td></tr></tfoot></table></div>
@@ -204,7 +204,7 @@ function bindBud(){document.querySelectorAll("[data-bud]").forEach(a=>a.onclick=
 function drawCats(){const T=CATS.reduce((a,c)=>a+colSum(M,c),0),cs=CATS.map(c=>[c,colSum(M,c)]).filter(x=>x[1]).sort((a,b)=>b[1]-a[1]);
   $("#cats").innerHTML=`<h2>Rasxod túrleri boyınsha</h2>`+(T?`<div class="stack">${cs.map(([c,v])=>`<i style="width:${v/T*100}%;background:${CC[c]}" title="${c}"></i>`).join("")}</div>`+cs.map(([c,v])=>`<div class="cat"><span class="dot" style="background:${CC[c]}"></span><span>${c}</span><b>${fmt(v)}</b><span class="pc">${Math.round(v/T*100)}%</span></div>`).join(""):'<p class="mu" style="margin:0">Bul ayda ele summa kiritilmegen.</p>');
   const rs=D.branches.map((b,i)=>[b,rowSum(M,b.id),i]).sort((a,b)=>b[1]-a[1]),mx=rs[0][1]||1;
-  $("#rank").innerHTML=`<h2>Filiallar reytingi</h2>`+rs.map(([b,v,i])=>`<div class="rank"><span class="av" style="background:${BC[i%5]};width:28px;height:28px;font-size:12px;border-radius:9px" aria-hidden="true">${esc(b.name[0])}</span><span style="width:96px">${esc(b.name)}</span><span class="bb"><i style="width:${v/mx*100}%;background:${BC[i%5]}"></i></span><b>${fmt(v)}</b></div>`).join("");
+  $("#rank").innerHTML=`<h2>Filiallar reytingi</h2>`+rs.map(([b,v,i])=>`<div class="rank"><span class="av" style="background:${BC[i%6]};width:28px;height:28px;font-size:12px;border-radius:9px" aria-hidden="true">${esc(b.name[0])}</span><span style="width:96px">${esc(b.name)}</span><span class="bb"><i style="width:${v/mx*100}%;background:${BC[i%6]}"></i></span><b>${fmt(v)}</b></div>`).join("");
   const T2=D.branches.reduce((a,b)=>a+rowSum(M,b.id),0),budT=Object.values(D.budgets).reduce((a,v)=>a+ +v,0),top=cs[0],tb=rs[0];
   $("#kp").innerHTML=`<div><div class="lbl">Barlıq filiallar · ${mname(month)}</div><div class="v">${fmt(T2)}<small>sum</small></div></div>
    <div><div class="lbl">Limitler</div><div class="s">${budT?fmt(budT):"—"}</div><div class="s2">${budT?"limit qoyılǵan filiallar":"limit qoyılmaǵan"}</div></div>
